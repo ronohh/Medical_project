@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Staff Members</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'admindashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> View Registered staff members</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>S.N0</th>
+                                    <th>FullName</th>
+                                    <th>Gender</th>
+                                    <th>Mobile Number</th>
+                                    <th>Email </th>
+                                    <th>Registration Date</th>
+                                    <th>Insured</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in staffmembers %}
+                                <tr>
+                                    <td>{{i.id}}</td>
+                                    <td>{{i.admin.first_name}} {{i.admin.last_name}}</td>
+                                    <td>{{ i.gender}}</td>
+                                    <td>{{ i.admin.mobilenumber}}</td>
+                                    <td>{{i.admin.email}}</td>
+                                    <td>{{i.regdate_at}}</td>
+                                    <td>
+                                        {% if i.insurance %}
+                                        YES
+                                        {% else %}
+                                        NO
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            {% if i.insurance %}
+                                            <a href="{% url 'editinsurance' i.id %} " class="btn btn-sm bg-primary" >EDIT</a>
+                                            {% else %}
+                                            <a href="{% url 'insuranceadd' %}" class="btn btn-sm bg-primary" >ADD</a>
+                                            {% endif %}
+                                            <a href=""  onclick="return confirm('proceed to this delete staff')" class="btn btn-sm bg-danger">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

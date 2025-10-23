@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Users Details</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="admindashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Registered User Details</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    {% if messages  %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-hovertable-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>P.No</th>
+                                    <th>Fullname</th>
+                                    <th>Gender</th>
+                                    <th>Mobile Number</th>
+                                    <th>Email</th>
+                                    <th>Registration Date</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in students %}
+                                <tr>
+                                    <td>{{ i.id}}</td>
+                                    <td>{{ i.admin.first_name}} {{i.admin.last_name}}</td>
+                                    <td>{{i.gender}}</td>
+                                    <td>{{i.mobilenumber}}</td>
+                                    <td>{{i.admin.email}}</td>
+                                    <td>{{i.regdate_at}}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+
+                                            <a href="{% url 'viewappointmentdetails' i.id %}" class="btn btn-sm bg-primary btn-block">Appointment</a>
+                                            <a href="{% url 'deleteusersdetails' i.id %}" onclick="return confirm('Are you sure you want to delete this record?')" class="btn btn-sm bg-danger ">Delete</a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

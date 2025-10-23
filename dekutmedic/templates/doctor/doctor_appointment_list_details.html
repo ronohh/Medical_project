@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title"> Appointments List</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'doctorhome' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">View Appointment</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    {% if message %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            {% for i in patientdetails %}
+                            <tr>
+                                <strong style="">Appointment Number: {{i.appointmentnumber}}</strong>
+                                <strong style="">Date: {{i.date_of_appointment}}</strong>
+                            </tr>
+                            <tr>
+                                <th>Patient Name</th>
+                                <td>{{i.pat_id.admin.first_name}} {{i.pat_id.admin.last_name}}</td>
+                                <th>Patient Contact Number</th>
+                                <td>{{i.pat_id.mobilenumber}}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Patient Gender</th>
+                                <td>{{i.pat_id.gender}}</td>
+                                <th>Patient Email</th>
+                                <td>{{i.pat_id.admin.email}}</td>
+                            </tr>
+                            <tr>
+                                <th>Date of Appointment</th>
+                                <td>{{i.date_of_appointment}}</td>
+                                <th>Date of Time</th>
+                                <td>{{i.time_of_appointment}}</td>
+                            </tr>
+                            <tr>
+                                <th>Message</th>
+                                <td>{{i.additional_msg}}</td>
+                            </tr>
+                            <tr>
+                                {% if i.status == '0' %}
+                                <th>Doctor Remark</th>
+                                <td>Not Updated yet</td>
+                                {% else %}
+                            <tr>
+                                <th>Doctor Remark</th>
+                                <td>{{ i.remark }}</td>
+                                {% endif %}
+                            </tr>
+
+                                {% if i.status == '0' %}
+                                <th>Status</th>
+                                <td>Not updated Yet</td>
+                                {% else %}
+                            <tr>
+                                <th>Status</th>
+                                <td>{{i.status}}</td>
+                                {% endif %}
+                            </tr>
+
+                            <tr>
+                                {% if i.status == 'Completed' %}
+                                <th>Prescribed Medicine</th>
+                                <td>{{ i.prescription}}</td>
+                                {% else %}
+                                <th>Prescribed Medicine</th>
+                                <td>Not Prescribed Yet</td> {% endif %}
+                            </tr>
+                            <tr>
+                                {% if i.status == 'Completed' %}
+                                <th>Recommended Test</th>
+                                <td>{{ i.recommendedtest}}</td>
+                                {% else %}
+                                <th>Recommended Test</th>
+                                <td>Not Recommended Yet</td> {% endif %}
+                            </tr>
+                            <tr>
+                                {% if i.paid_by_insurance %}
+                                <th>Paid by Insurance</th>
+                                <td>Yes</td>
+                                {% else %}
+                                <th>Paid by Insurance</th>
+                                <td>NO </td>
+                                {% endif %}
+                            </tr>
+                        </table>
+
+                        {% if i.pat_id.insurance %}
+                            <h4>Insurance Information</h4>
+                            <table>
+                                <tr>
+                                    <th>Total cover</th>
+                                    <td>{{ i.pat_id.insurance.total_cover }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Remaining Balance</th>
+                                    <td>{{ i.pat_id.insurance.balance }}</td>
+                                </tr>
+                            </table>
+                        {% else %}
+                        
+                        <p>No insurance assigned for this patient</p>
+
+                        {% endif %}
+
+                        {% if.i.status == 'Approved' %}
+                    </div>
+                    <p align="center" style="padding-top: 20px">
+                        <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Take Action</button>
+                    </p>
+                    {% endif %}
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Take Action</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-hover data-tables">
+                                        <form method="POST" action="">
+
+                                            {% csrf_token %}
+                                        <tr>
+                                            <th>Prescribed Medicine:</th>
+                                            <td>
+                                                <textarea name="prescription" placeholder="Prescribed Medicine" rows="5" cols="100" class="form-control wd-850" required="true"></textarea>
+                                            </td>
+                                            <input type="text" value="">
+                                        </tr>
+                                        <tr>
+                                            <th>Recommended Test: </th>
+                                            <td>
+                                                <textarea name="recommendedtest" placeholder="recommendedtest" rows="10" cols="100" class="form-control wd-850" required="true" ></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status:</th>
+                                            <td>
+                                                <select name="status" class="form-control wd-450" required="true" >
+                                                    <option value="completed" selected="true">Completed</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                        </form>
+                                    </table>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

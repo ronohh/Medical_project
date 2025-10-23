@@ -1,0 +1,76 @@
+<!-- {% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Doctor Added Patient</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href=""></a>Dashboard</li>
+                    <li class="breadcrumb-item active"> patient details</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-o datatable">
+                            <tr align="center">
+                                <th colspan="8">Patient Details</th>
+                            </tr>
+                            <tr>
+                                <th>Patient Name</th>
+                                <td>{{pd.name}}</td>
+                                <th>Patient Contact Number</th>
+                                <td>{{pd.mobilenumber}}</td>
+                            </tr>
+                            <tr>
+                                <th>Patient Gender</th>
+                                <td>{{pd.gender}}</td>
+                                <th>patient Email</th>
+                                <td>{{pd.email}}</td>
+                            </tr>
+                            <tr>
+                                <th>Patient Age</th>
+                                <td>N/A</td>
+                                <th>Paid</th>
+                                <td></td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} -->

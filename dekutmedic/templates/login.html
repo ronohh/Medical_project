@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin login </title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <div class="main-wrapper login-body">
+        <div class="login-wrapper">
+            <div class="container">
+                <div class="loginbox">
+                    <div class="login-left">
+                        <p style=""> Dekut medical centre</p>
+                    </div>
+                    <div class="login-right">
+                        <div class="login-right-wrap">
+                            <h1> LOGIN </h1>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'success' %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                    <span aria-hidden="true"> </span>
+                                </button>
+                            </div>
+                            {% endif %}
+                              {% endfor %}
+                            {% endif %}
+                            <form action=" {% url 'dologin' %} " method="POST">
+                                {% csrf_token %}
+
+                                <div class="form-group-login">
+                                    <input type="text" class="form-control" placeholder="enter your username" name="username" required="true">
+                                </div>
+                                <div class="form-group-login">
+                                    <input type="password" class="form-control" placeholder="enter your password" name="password" required="true">
+                                </div>
+                                <div class="form-group-login">
+                                    <button class="btn btn-primary btn-block" type="submit"> Login </button>
+                                </div>
+                            </form>
+
+
+                            <div class="btn btn-primary btn-block"><a href="{% url 'index' %}">Home page</a></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js'%}"></script>
+</body>
+</html>

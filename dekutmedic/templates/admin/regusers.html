@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="col">
+            <h3 class="page-title">Registered users</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'admindashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item active"> View registeredusers</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 col-sm-6 col-12 d-flex">
+            <div class="card bg-two w-100">
+            <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+                <div class="db-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="db-info">
+                    <h3>{{staff_count}}</h3>
+                    <a href="{% url 'staffmemberslist' %}"><h6>Staff members</h6></a>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-sm-6 col-12 d-flex">
+            <div class="card bg-two w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{students_count}}</h3>
+                            <a href="{% url 'studentslist' %}"><h6>Registered students</h6></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>hello boys and girls</p>
+    </div>
+</div>
+{% endblock %}

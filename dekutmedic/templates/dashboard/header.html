@@ -1,0 +1,153 @@
+{% load static %}
+
+{% if user.user_type == 1 %}
+
+<div class="header">
+    <div class="header-left" style="">
+        <a href="{% url 'admindashboard' %}">
+            <img src="{% static 'images/logo.png' %}" alt="DEKUT Medical Centre" width="400" height="">
+        </a>
+    </div>
+    <a class="mobile_btn" id="mobile_btn">
+        <i class="fas fa-bars"></i>
+    </a>
+    <ul class="nav user-menu">
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{user.profile_pic}}" width="31" alt="round">
+                </span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="user-header">
+                    <div class="avatar avatar-sm">
+                        <img src="/{{user.profile_pic}}" alt="user image" class="avatar-img rounded-circle">
+                    </div>
+                    <div class="user-text">
+                        <h6>{{user.first_name}} {{user.last_name}}</h6>
+                        <p class="text-muted mb-0"> Administrator </p>
+                    </div>
+                </div>
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href=""> setting </a>
+                <a class="dropdown-item" href="{% url 'dologout' %}"> Logout</a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+{% elif user.user_type == 2 %}
+<div class="header">
+    <div class="header-left" style="padding: 0" >
+        <a href="{% url 'doctordashboard' %}">
+            <img src="{% static 'images/logo.png' %}" alt="DEKUT Medical Centre" width="400" >
+        </a>
+    </div>
+
+    <a class="mobile_btn" >
+        <i class="fas fa-bars"></i>
+    </a>
+    <ul class="nav user-menu">
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    {% if user.profile_pic %}
+                    <img class="rounded-circle" src="/{{user.profile_pic}}" width="31" alt=" profile ">
+                    {% else %}
+                    <img src="" alt="profile">
+                    {% endif %}
+                </span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="user-header">
+                    <div class="avatar avatar-sm">
+                        <img src="{{user.profile_pic}}" alt="user image" class="avatar-img rounded-circle">
+                    </div>
+                    <div class="user-text">
+                        <h6>{{ user.first_name}} {{ user.last_name}}</h6>
+                        <p class="text-muted mb-0">Doctor</p>
+                    </div>
+                </div>
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href="">setting</a>
+                <a class="dropdown-item" href="{% url 'dologout' %}">Logout </a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+{% elif user.user_type == 3 %}
+
+<div class="header">
+    <div class="header-left">
+        <a href="{% url 'patienthome' %}" >
+            <img src="{% static 'images/logo.png' %}" alt="DEKUT Medical Centre" width="400" height="">
+        </a>
+    </div>
+    
+    <a class="mobile_btn">
+        <i class="fas fa-bars"></i>
+    </a>
+    <ul class="nav user-menu">
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="/{{user.profile_pic}}" width="31" alt="profile">
+                </span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="user-header">
+                    <div class="avatar avatar-sm">
+                        <img src="{{user.profile_pic}}" alt="user image" class="avatar-img rounded-circle">
+                    </div>
+                    <div class="user-text">
+                        <h6>{{user.first_name}} {{user.last_name}}</h6>
+                        <p class="text-muted mb-0"> Patient </p>
+                    </div>
+                </div>
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href=""> setting </a>
+                <a class="dropdown-item" href="{% url 'dologout' %}"> Logout</a>
+            </div>
+        </li>
+    </ul>
+</div> 
+
+{% elif user.user_type == 4 %}
+<div class="header">
+    <div class="header-left">
+        <a href="{% url 'staffdashboard' %}">
+            <img src="{% static 'images/logo.png' %}" alt="DEKUT Medical Centre" width="400" height="">
+        </a>
+    </div>
+    <a class="mobile_btn">
+        <i class="fas fa-bars"></i>
+    </a>
+    <ul class="nav user-menu">
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ user.profile_pic }}" width="31" alt=" profile pic">
+                </span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="user-header">
+                    <div class="avatar avatar-sm">
+                        <img src="{{ user.profile_pic }}" alt="user image" class="avatar-img rounded-circle">
+                    </div>
+                    <div class="user-text">
+                        <h6>{{user.first_name}} {{user.last_name}}</h6>
+                        <p class="text-muted mb-0">Staff</p>
+                    </div>
+                    <a class="dropdown-item" href="{% url 'profile' %}"> My Pofile</a>
+                    <a class="dropdown-item" href="">setting</a>
+                    <a class="dropdown-item" href="{% url 'dologout' %}">logout</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+{% else %}
+
+{% endif %}

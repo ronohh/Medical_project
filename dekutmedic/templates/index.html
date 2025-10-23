@@ -1,0 +1,103 @@
+{% extends 'userbase.html' %}
+{% load static %}
+
+{% block content %}
+<section class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-xl-7">
+                <div class="block">
+                    <h5 class="mb-2 " style="color:#cb2e25"> WELCOME TO DEKUT MEDICAL CENTRE </h5>
+                    <h1 class="mb-3 mt-3"> Your Health Is Our Priority.</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="feature-block d-lg-flex">
+                    <div class="feature-item mb-5 mb-lg-0">
+                        <div class="feature-icon mb-4">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <h4> 24 Hours service</h4>
+                        <ul class="mb-4"> <h6>Our serivces include:</h6>
+                            <li>Out-patient services </li>
+                            <li>Laboratory services</li>
+                            <li>Round the clock Ambulance services for cases requiring urgent medical referrals to other Medical Institution</li>
+                        </ul>
+                        <a href="" class="btn btn-primary btn-round-full">Make an appointment</a>
+                    </div>
+
+                    <div class="feature-item mb-5 mb-lg-0">
+                        <div class="feature-icon mb-4">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <h4> Timing schedule</h4>
+                        <div class="w-hours">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Hours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mon - Fri</td>
+                                        <td>6:00 - 22:00 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saturday</td>
+                                        <td>6.00 - 17:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sunday</td>
+                                        <td>6.00 - 17:00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12">
+                <div class="text">
+                    <h3>Schedule Appointments</h3>
+                    <p>Take charge of your schedule with ease. Dekut Medical Centre enables you to schedule appointents, receive confirmations from your doctors, and timely reminders to ensure you ever miss a visit. Stay organized and on top of your healthcare journey effortlessly.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="image">
+                    <img src="../static/images/appointment.webp" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12">
+                <div class="image">
+                    <img src="../static/images/manage your profile.png" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="text">
+                    <h3>Manage Your Health Profile</h3>
+                    <p>Your health, your way. With DekutMedicalCentre, effortlessly manage your personal health details and ensure they're always up to date. Received tailored updates and insights for continous personal health improvement, empowering you to take control of your well-being like never before</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

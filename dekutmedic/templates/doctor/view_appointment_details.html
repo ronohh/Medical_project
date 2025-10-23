@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Appointments</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'doctordashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">View Appointments</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-labe="Close" >
+                            <span></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable ">
+                            
+                            {% for i in patientdetails %}
+                            <tr><label style="font-size: medium;text-align: center; padding-right: 50px;"> Appointment Number: {{i.appointmentnumber}}</label>  <span>creation date: {{i.created_at}} </span></tr>
+                            <tr>
+                                <th>Patient Name</th>
+                                <td>{{i.pat_id.admin.first_name}} {{i.pat_id.admin.last_name}}</td>
+                                <th>Patient Contact Number</th>
+                                <td>{{i.pat_id.admin.mobilenumber}}</td>
+                            </tr>
+                            <tr>
+                                <th>Patient Gender</th>
+                                <td>{{i.pat_id.gender}}</td>
+                                <th>Patient Email</th>
+                                <td>{{i.pat_id.admin.email}}</td>
+                            </tr>
+                            <tr>
+                                <th>Date of Appointment</th>
+                                <td>{{i.date_of_appointment}}</td>
+                                <th>Time of appointment </th>
+                                <td>{{i.time_of_appointment}}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Message</th>
+                                <td>{{i.additional_msg}}</td>
+                                <th></th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                {% if i.status == '0' %}
+                                <th>Doctor diagnosis</th>
+                                <td>Not Updated Yet</td>
+
+                                {% else %}
+                                <th>Doctor diagnosis</th>
+                                <td style="max-width: 300px;">{{ i.diagnosis }}</td>
+                                {% endif %}
+
+                                {% if i.status == '0' %}
+                                <th>Doctor Prescription</th>
+                                <td>Not Updated Yet</td>
+                                {% else %}
+                                <th>Doctor Prescription</th>
+                                <td>{{  i.prescription }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if i.status == '0' %}
+                                <th>Status</th>
+                                <td>Not Updated Yet</td>
+                                {% else %}
+                                <th>Status</th>
+                                <td>{{i.status}}</td>
+                                {% endif %}
+
+                                {% if user.user_type == 4 %}
+                                <th>Paid</th>
+                                <td>{{ i.Consultancy_fee}}</td>
+                                {% endif %}
+
+                            </tr>
+                            {% if user.user_type == 4 %}
+                            <tr>
+                                {% if i.paid_by_insurance %}
+                                <th>Paid by Insurance</th>
+                                <td>YES</td>
+                                {% else %}
+                                <th>paid by insurance</th>
+                                <td>NO</td>
+                                {% endif %}
+                            </tr>
+                            {% endif %}
+                        </table>
+
+                        {% if i.pat_id.insurance %}
+
+                        <h4>Insurance Information</h4>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Total cover</th>
+                                <td>{{ i.pat_id.insurance.total_cover }}</td>
+                            </tr>
+                            <tr>
+                                <th>Remaining Balance</th>
+                                <td>{{ i.pat_id.insurance.balance }}</td>
+                            </tr>
+                        </table>
+                        {% elif i.pat_id.admin.user_type == 4 %}
+                            <p>Has no insurance </p>
+                        {% else %}
+                        <p> This patient is a student </p>
+                        {% endif %}
+                    </div>
+                    
+                    {% if i.status == '0' %}    
+
+                    <p align="center" style="padding-top: 20px"> 
+                        <button class="btn btn-primary waves-effect waves-light w-lg" data-bs-toggle="modal" data-bs-target="#myModal{{ i.id}}" >Take Action</button>
+                    </p>
+                    {% endif %}
+                    <div class="modal fade" id="myModal{{ i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Take Action</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <table class="table table-bordered table-hover data-tables">
+                                        <form method="POST" action="{% url 'PatientAppointmentDetailsRemark' %}">
+                                            {% csrf_token %}
+
+                                        <tr>
+                                            <th>Diagnosis :</th>
+                                            <td>
+                                                <textarea name="diagnosis" placeholder="Remark" rows="12" cols="14" class="form-control wd-450" required="true"></textarea>
+                                            </td>
+                                            <input type="hidden" value="{{ i.id }}" name="pat_id" id="pat_id" class="form-control" required="">
+                                        </tr>
+                                        <tr>
+                                            <th>Prescription</th>
+                                            <td>
+                                                <textarea name="prescription" placeholder="prescription" rows="12" col="14" class="form-control w-450" required="true"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Consultancy Fee</th>
+                                            <td>
+                                                <textarea name="consultancy fee" placeholder="KSHs" class="form-control wd-450" required></textarea>
+                                            </td>
+                                            <input type="hidden" value="i.id" name="" class="form-control" required>
+                                        </tr>
+                                        <tr>
+                                            <th>Status :</th>
+                                            <td>
+                                                <select name="status" class="form-control wd-450" required="true">
+                                                    <option value="Approved" selected="true"> Approved</option>
+                                                    <option value="Canceled"> Canceled</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close</button>
+                                    <button type="submit" name="submit" class="btn btn-primary">Update</button>
+
+                                </div>
+                                        </form>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

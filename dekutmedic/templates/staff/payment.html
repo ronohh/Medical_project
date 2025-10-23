@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay with M-PESA</title>
+</head>
+<body>
+    <h2>M-PESA</h2>
+    
+    <form method="POST" action="{% url 'stk_push' %}">
+        {% csrf_token %}
+
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        <input type="hidden" name="appointment_id" value="{{ appointment.id }}">
+
+        <label >Phone Number:</label><br>
+        <input type="text" name="phone" value="{{ i.pat_id.admin.mobilenumber }}" class="form-control mb-2" required placeholder="2547********">
+        <br>
+        <label >Amount (KES):</label><br>
+        <input type="number" name="amount" value="{{ appointment.consultancy_fee }}" class="form-control mb-2" value="{% if appointment %}{{ appointment.consultancy_fee}} {% endif %}" required min="1">
+        <br>
+        <button type="submit" class="btn btn-primary w-100">PAY</button>
+    </form>
+</body>
+</html>

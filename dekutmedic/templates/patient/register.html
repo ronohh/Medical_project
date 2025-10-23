@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dekut Medical Centre Patient registration</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="main-wrapper login-body">
+        <div class="login-wrapper">
+            <div class="container">
+                <div class="loginbox">
+                    <div class="login-left">
+                        <p style=" ">Dekut Medical Centre</p>
+                    </div>
+
+                    <div class="login-right">
+                        <div class="login-right-wrap">
+                            <h1>Sign Up</h1>
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {% if messages %}
+                                {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% if messages %}
+                                {% for message in messages %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>profile pic</label>
+                                    <input id="pic" type="file" class="form-control" name="profile_pic" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label >First Name</label>
+                                    <input id="first_name" type="text"  class="form-control" placeholder="First Name" name="first_name" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input id="last_name" type="text" class="form-control" placeholder="Last Name" name="last_name" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label> Email</label>
+                                    <input id="email" type="email" class="form-control" placeholder="Email" name="email" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label> Gender</label>
+                                    <select name="gender" id="gender" class="form-control" required="true">
+                                        <option value=""> Choose Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Bisexual">Bisexual</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input id="username" type="text" class="form-control" placeholder="Enter Username" name="username" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label> Mobile Number</label>
+                                    <input id="mobno" type="text" class="form-control" pattern="254[0-9]{9}" maxlength="13" placeholder="2547*********" name="mobno" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label>password</label>
+                                    <input id="password" type="password" class="form-control" placeholder="Enter Password" name="password" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block " type="submit">Register</button>
+                                </div>
+                            </form>
+
+                            <div class="text-center already-have"><a href="{% url 'login' %}">Already have an account? click me</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'css/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}">
+        
+    </script>
+</body>
+</html>

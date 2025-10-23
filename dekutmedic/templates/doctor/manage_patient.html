@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content content-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="page-title">
+                    <h3>Manage Patients</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'doctordashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Manage Patients</li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card card-table">
+                        <div class="card-body">
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div class="alert alert-warning alert-disissible fade show" role="alert">
+                                {{message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if message.tags == 'success' %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                              {{message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0 datatable">
+                                    <thead>
+                                        {% if patde %}
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Patient Name</th>
+                                        <th>Patient mobile Number</th>
+                                        <th>Patient Gender</th>
+                                        <th>Creation Date</th>
+                                        <th>Action</th>
+                                        <th>Fee</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in patde %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.mobilenumber}}</td>
+                                        <td>{{i.gender}}</td>
+                                        <td>{{i.regdate_at}}</td>
+                                        <td>
+                                            <a href="{% url 'viewpatientdetails' i.id %}" class="btn btn-sm bg-primary">View Details</a>
+                                            <a href="{% url 'viewpatient' i.id %}" class="btn btn-sm bg-primary">Edit</a>
+                                        </td>
+                                        <td>
+                                            {% if i.payment and i.payment.status == "success" %}
+                                            <span class="badge bg-success">Paid</span>
+                                            {% else %}
+                                            <form method="POST" action="{% url 'stk_push' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="patient_id" value="{{ i.id }}">
+                                                <input type="hidden" name="phone" value="{{ i.mobilenumber }}">
+                                                <input type="hidden" name="amount" value="1">
+                                                <button type="submit" class="btn btn-sm btn-danger">Send Prompt</button>
+                                            </form>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+
+                                    {% else %}
+                                    <p>No Data Available</p>
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

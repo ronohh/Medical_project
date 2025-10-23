@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Manage Referral</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'staffdashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Referrals</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="c0l-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                {% if referrals %}
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Referral Hospital</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in referrals %}
+                            <tr>
+                                <td>{{ i.pat_id.admin.first_name }} {{ i.pat_id.admin.last_name}}</td>
+                                <td>{{ i.hospital_id.hname }}</td>
+                                <td>{{ i.date_of_referral }}</td>
+                                <td>{{ i.time_of_referral }}</td>
+                                <td>{{ i.additional_msg }}</td>
+                                <td>
+                                    {% if i.status == "Pending" %}
+                                    <span class="badge bg-warning">Pending</span>
+                                    {% elif i.status == "Accepted" %}
+                                    <span class="badge bg-success"> Accepted</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">Rejected</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if i.status == "Pending" %}
+                                    <form action="" method="post" style="display:inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="referral_id" value="{{ i.id }}">
+                                        <button type="submit" name="action" value="accept" class="btn btn-success btn-sm"> Accept</button>
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm"> Reject</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            
+                            {% else %}
+                            <p>No Data Available</p>
+                            {% endif %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

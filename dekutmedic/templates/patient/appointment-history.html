@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content container-fluid">
+    
+    {% if user.user_type == 3 %}
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Appointments</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'patienthome' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">View Appointment history</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% elif user.user_type == 4 %}
+    <div class="page-header">
+        <div class="row align-items-canter">
+            <div class="col">
+                <h3 class="page-title">Appointments History</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'staffdashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">View Appointment History staff</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if vah %}
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Appointment Number</th>
+                                    <th>Doctor Name</th>
+                                    <th>Date of Appointment</th>
+                                    <th>Time of Appointment</th>
+                                    <th>Creation Date</th>
+                                    <th>Status</th>
+                                    <th class="text-right"><th>Action</th></th>
+
+                                    {% if user.user_type == 4 %}
+                                    <th>consultancy_fee</th>
+                                    {% endif %}
+
+                                    <th>Record</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in vah %}
+                            <tr>
+                                <td>{{appointment.appointmentnumber}}</td>
+                                <td>{{appointment.doctor_id.admin.first_name}} {{appointment.doctor_id.admin.last_name}}</td>
+                                <td>{{appointment.date_of_appointment}}</td>
+                                <td>{{appointment.time_of_appointment}}</td>
+                                <td>{{appointment.created_at}}</td>
+
+                                {% if appointment.status == '0' %}
+                                <td>Not Updated Yet</td>
+                                {% else %}
+                                <td>{{ appointment.status}}</td>
+                                {% endif %}
+
+                                <td classs="text-right">
+                                    <div class="actions">
+                                        <td>
+                                            {% if appointment.status != 'Approved' and appointment.status != 'Canceled' %}
+                                            <form action="{% url 'cancelappointment' appointment.id %}" method="POST"  style="display:inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger"> Cancel</button>
+                                            </form>
+
+                                            {% else %}
+                                            <span class="text-muted">Cannot cancel</span>
+                                            {% endif %}
+                                        </td>
+                                    </div>
+                                </td>
+
+                                {% if user.user_type == 4 %}
+                                <td>
+                                    {% if appointment.payments.exists and appointment.payment.last.status == "success" %}
+                                        <span class="badge bg-success">Paid</span>
+                                    {% else %}
+                                    <a href="{% url 'stk_form' %}?appointment_id={{ appointment.id}}" class="btn btn-success btn-sm">Pay {{appointment.consultancy_fee}}</a>
+                                    {% endif %}
+                                </td>
+                                {% endif %}
+
+                                <td>
+                                    <a href="{% url 'records' appointment.id %}" class="btn btn-sm bg-primary ">view</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p>No appointment history available</p>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

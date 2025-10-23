@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<div class=" container mt-4">
+    <h2>Insured staff</h2>
+    <table class="table table-striped">
+        <thead>
+            {% if insurances %}
+            <tr>
+                <th>Patient</th>
+                <th>Total Cover</th>
+                <th>Balance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in insurances %}
+            <tr>
+                <td>{{ i.patient.admin.first_name }}  {{i.patient.admin.last_name}}</td>
+                <td>{{ i.total_cover }}</td>
+                <td>{{ i.balance }}</td>
+                <td>
+                    <a href="{% url 'editinsurance' i.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete ?');">Delete</a>
+                </td>
+            </tr>
+
+            {%  endfor %}
+            {% else %}
+            <tr>
+                <td colspan="4"> No insurance records</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    <a href="{% url 'insuranceadd' %}" class="btn btn-primary mb-3">Add insurance</a>
+    </table>
+</div>
+{% endblock %}
