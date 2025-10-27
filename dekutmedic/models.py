@@ -7,6 +7,7 @@ class CustomUser(AbstractUser):
         (2, 'doctor'),
         (3, 'patient'),
         (4, 'staff' ),
+        (5, 'pharmacist'),
     )
     user_type = models.IntegerField(choices=USER, default=1)
 
@@ -24,9 +25,19 @@ class DoctorRegistration(models.Model):
 
     def __str__(self):
         if self.admin:
-            return f"{self.admin.first_name} {self.admin.last_name} - {self.mobilenumber}"
+            return f"{self.admin.first_name} {self.admin.last_name} - {self.admin.mobilenumber}"
         else:
             return f"user not associated - {self.mobilenumber}"
+        
+class PharmacistRegistration(models.Model):
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    regdate_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class StaffRegistration(models.Model):
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    regdate_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
  
 class PatientReg(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
@@ -48,16 +59,7 @@ class Appointment(models.Model):
     paid_by_insurance = models.BooleanField(default=False)
 
     def save(self,*args, **kwargs):
-        # is_new = self._state.adding
         super().save(*args, **kwargs)
-        # if is_new:
-        #     try:
-        #         insurance = Insurance.objects.get(patient=self.pat_id)
-        #         if insurance.deduct_fee(self.consultancy_fee):
-        #             self.paid_by_insurance = True
-        #             super().save(update_fields=["paid_by_insurance"])
-        #     except Insurance.DoesNotExist:
-        #         pass
     @property
     def is_paid(self):
         if self.paid_by_insurance:

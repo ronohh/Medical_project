@@ -6,7 +6,7 @@ import random
 from datetime import datetime
 from django.utils import timezone
 from dekutmedic.models import CustomUser
-from .models import DoctorRegistration, PatientReg, Appointment,AddPatient, MedicalHistory, ReferralAppointment, Payment, Insurance
+from .models import DoctorRegistration,PharmacistRegistration, PatientReg, Appointment,AddPatient, MedicalHistory, ReferralAppointment, Payment, Insurance
 from django.core.paginator import Paginator,EmptyPage
 from .forms import PatientReferralForm
 import requests
@@ -28,110 +28,6 @@ def Userbase(request):
     Render the index page.
     """
     return render(request, 'userbase.html')
-
-# admin panel
-def adminhome(request):
-    doctor_count=DoctorRegistration.objects.all().count
-    students_count = CustomUser.objects.filter(user_type=3).count
-    staff_count = CustomUser.objects.filter(user_type=4).count
-    context = {
-        'doctor_count':doctor_count,
-        'students_count': students_count,
-        'staff_count': staff_count,
-    }
-    return render(request, 'admin/adminhome.html', context)
-
-def doctorList(request):
-    doctorlist = DoctorRegistration.objects.all()
-    context = {'doctorlist':doctorlist}
-    
-    return render(request, 'admin/doctor-list.html', context)
-
-def ViewDoctorDetails(request,id):
-    doctorlist1 = DoctorRegistration.objects.filter(id=id)
-    context = {
-        'doctorlist1': doctorlist1
-    }
-    return render(request, 'admin/doctor-details.html', context)
-
-def ViewDoctorPatient(request,id):
-    patde = AddPatient.objects.filter(doctor_id=id)
-    context = {
-        'patde':patde
-    }
-    return render(request, 'admin/doctor_patient.html', context)
-
-# def ViewDoctorPatientDetails(request,id):
-#     patient_data = AddPatient.objects.get(id=id)
-#     medrec_data = MedicalHistory.objects.filter(pat_id=id)
-#     context = {
-#         "pd": patient_data,
-#         "mrd": medrec_data,
-#     }
-#     return render(request, 'admin/doctor_patient_details.html',context)
-
-def ViewDoctorAppointmentList(request,id):
-    patientdetails = Appointment.objects.filter(doctor_id=id)
-    context = {
-        'patientdetails': patientdetails
-    }
-    return render(request, 'admin/doctor_appointment_list.html',context)
-
-def ViewAppointmentPatientsDetails(request,id):
-    patientdetails = Appointment.objects.filter(id=id)
-    context={'patientdetails':patientdetails}
-
-    return render(request, 'admin/appointment_patient_details.html',context)
-def Registeredusers(request):
-    staff_count = CustomUser.objects.filter(user_type=4).count
-    students_count = CustomUser.objects.filter(user_type=3).count
-    context = {
-        'students_count': students_count,
-        'staff_count': staff_count
-    }
-    return render(request, 'admin/regusers.html', context)
-def StaffMembersList(request):
-    staffmembers = PatientReg.objects.filter(admin__user_type=4)
-    context = {
-        "staffmembers": staffmembers
-    }
-    return render(request, 'admin/staff_members_list.html', context)
-def StudentsList(request):
-    students = PatientReg.objects.filter(admin__user_type=3)
-    context = {
-        "students": students
-    }
-    return render(request, 'admin/student_list.html', context)
-# def RegisteredUsersDetails(request):
-#     regusers = PatientReg.objects.all()
-#     context = {
-#         "regusers": regusers
-#         }
-#     return render(request, 'admin/registered-users.html', context)
-
-def DeleteRegUsers(request,id):
-    try:
-        patreg = PatientReg.objects.get(id=id)
-        custom_user =patreg.admin
-        patreg.delete()
-        custom_user.delete()
-        messages.success(request, 'Record deleted successfully!')
-    except PatientReg.DoesNotExist:
-        messages.error(request, f'patient does not exist.')
-    except Exception as e:
-        messages.error(request, f'error deleting record: {e}')
-    return redirect('regusers')
-
-def Registered_User_Appointments(request,id):
-    pat_admin = PatientReg.objects.get(id=id)
-    userapptdetails = Appointment.objects.filter(pat_id= pat_admin)
-
-    context = {
-        'vah': userapptdetails
-    }
-    return render(request, 'admin/registered_users_appointment.html', context)
-
-
 def index(request):
     """
     Render the index page.
@@ -165,6 +61,8 @@ def dologin(request):
                 return redirect('patienthome')
             elif user_type == 4:
                 return redirect('staffdashboard')
+            elif user_type ==5:
+                return redirect('pharmacistdashboard')
             
             else:
                 return redirect('patienthome')
@@ -176,6 +74,94 @@ def dologin(request):
     else:
         messages.error(request, 'Email or Password is not valid')
         return redirect('login')
+
+# admin panel
+def adminhome(request):
+    doctor_count=DoctorRegistration.objects.all().count
+    students_count = CustomUser.objects.filter(user_type=3).count
+    staff_count = CustomUser.objects.filter(user_type=4).count
+    context = {
+        'doctor_count':doctor_count,
+        'students_count': students_count,
+        'staff_count': staff_count,
+    }
+    return render(request, 'admin/adminhome.html', context)
+
+def doctorList(request):
+    doctorlist = DoctorRegistration.objects.all()
+    context = {'doctorlist':doctorlist}
+    
+    return render(request, 'admin/doctor-list.html', context)
+
+def ViewDoctorDetails(request,id):
+    doctorlist1 = DoctorRegistration.objects.filter(id=id)
+    context = {
+        'doctorlist1': doctorlist1
+    }
+    return render(request, 'admin/doctor-details.html', context)
+
+def ViewDoctorPatient(request,id):
+    patde = AddPatient.objects.filter(doctor_id=id)
+    context = {
+        'patde':patde
+    }
+    return render(request, 'admin/doctor_patient.html', context)
+
+def ViewDoctorAppointmentList(request,id):
+    patientdetails = Appointment.objects.filter(doctor_id=id)
+    context = {
+        'patientdetails': patientdetails
+    }
+    return render(request, 'admin/doctor_appointment_list.html',context)
+
+def ViewAppointmentPatientsDetails(request,id):
+    patientdetails = Appointment.objects.filter(id=id)
+    context={'patientdetails':patientdetails}
+
+    return render(request, 'admin/appointment_patient_details.html',context)
+def Registeredusers(request):
+    staff_count = CustomUser.objects.filter(user_type=4).count
+    students_count = CustomUser.objects.filter(user_type=3).count
+    context = {
+        'students_count': students_count,
+        'staff_count': staff_count
+    }
+    return render(request, 'admin/regusers.html', context)
+def StaffMembersList(request):
+    staffmembers = PatientReg.objects.filter(admin__user_type=4)
+    context = {
+        "staffmembers": staffmembers
+    }
+    return render(request, 'admin/staff_members_list.html', context)
+def StudentsList(request):
+    students = PatientReg.objects.filter(admin__user_type=3)
+    context = {
+        "students": students
+    }
+    return render(request, 'admin/student_list.html', context)
+
+def DeleteRegUsers(request,id):
+    try:
+        patreg = PatientReg.objects.get(id=id)
+        custom_user =patreg.admin
+        patreg.delete()
+        custom_user.delete()
+        messages.success(request, 'Record deleted successfully!')
+    except PatientReg.DoesNotExist:
+        messages.error(request, f'patient does not exist.')
+    except Exception as e:
+        messages.error(request, f'error deleting record: {e}')
+    return redirect('regusers')
+
+def Registered_User_Appointments(request,id):
+    pat_admin = PatientReg.objects.get(id=id)
+    userapptdetails = Appointment.objects.filter(pat_id= pat_admin)
+
+    context = {
+        'vah': userapptdetails
+    }
+    return render(request, 'admin/registered_users_appointment.html', context)
+
 def Profile(request):
     user = CustomUser.objects.get(id=request.user.id)
     context = {
@@ -497,6 +483,46 @@ def records(request,id):
     }
     return render(request, 'patient/Records.html', context)
 
+# pharmacist
+def pharmacistsignup(request):
+    if request.method == "POST":
+        pic = request.FILES.get('pic')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        mobno = request.POST.get('mobno')
+        password = request.POST.get('password')
+
+        if CustomUser.objects.filter(email=email).exists():
+            messages.warning(request, 'Email already exists')
+            return redirect('pharmacistsignup')
+        if CustomUser.objects.filter(username=username).exists():
+            messages.warning(request, 'username already exists')
+            return redirect('pharmacistsignup')
+        else:
+            user = CustomUser(
+                first_name=first_name,
+                last_name=last_name,
+                username=username,
+                email=email,
+                user_type=5,
+                profile_pic = pic,
+                mobilenumber = mobno,
+            )
+            user.set_password(password)
+            user.save()
+            pharmacist = PharmacistRegistration(
+                admin = user,
+            )
+            pharmacist.save()
+            messages.success(request, 'Pharmacist registered successfully')
+            return redirect('login')
+        
+    return render(request, 'pharmacist/pharmacist-register.html')
+
+def pharmacistdashboard(request):
+    return render(request, 'pharmacist/pharmacist_dashboard.html')
 # doctor
 def docsignup(request):
     if request.method == "POST":

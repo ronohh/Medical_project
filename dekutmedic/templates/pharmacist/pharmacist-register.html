@@ -23,7 +23,7 @@
                     <div class="login-right">
                         <div class="login-right-wrap">
                         <h1>Sign Up</h1>
-                        <form action="{% url 'staffregistration' %}" method="POST" enctype="multipart/form-data">
+                        <form action="{% url 'pharmacistsignup' %}" method="POST" enctype="multipart/form-data">
                             {% if messages %}
                             {% for message in messages %}
                             {% if message.tags == 'error' %}
@@ -68,22 +68,14 @@
                                 <input type="email" class="form-control" placeholder="Enter email" name="email" required="true">
                             </div>
                             <div class="form-group">
-                                <label >Gender</label>
-                                <select name="gender" id="gender" class="form-control"  required="true">
-                                    <option value=""> Choose Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label >Mobile Number</label>
                                 <input type="text" class="form-control" name="mobno" pattern="254[0-9]{9}" maxlength="13" placeholder="2547*********" required="true">
                             </div>
                             <div class="form-group">
-                            <div class="form-group">
                                 <label >Username</label>
                                 <input type="text" class="form-control" placeholder="Username" name="username" required>
                             </div>
+                            <div class="form-group">
                                 <label >Password</label>
                                 <input type="password" class="form-control" placeholder="enter password" name="password" required="true">
                             </div>

@@ -108,12 +108,12 @@
 }
 
 
-
-
-
 /* registration  and login */
-/* check here */
-
+.main-wrapper {
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+}
 .main-wrapper .login-body {
     display: flex;
     justify-content: center;
@@ -168,7 +168,7 @@
     margin-bottom: 20px;
     text-align: center;
 }
-.form-group-login {
+.form-group {
     margin-bottom: 20px;
 }
 .form-group label{
@@ -191,7 +191,7 @@
     transition: 0.3s;
 }
 .btn-primary a {
-    color:#f4f4f4;
+    color: #f4f4f4;
     text-decoration: none;
 }
 .btn-primary:hover {
@@ -219,11 +219,6 @@
 
 
 /* DASHBOARD */
-.main-wrapper {
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
-}
 .page-wrapper {
     margin-left: 300px;
     padding-top: 80px;
@@ -251,7 +246,7 @@
     margin-bottom: 5px;
 }
 
-
+/* admin header */
 .header {
     display:flex;
     /* brings them horizontally but attached */

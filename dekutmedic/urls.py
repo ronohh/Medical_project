@@ -49,6 +49,10 @@ urlpatterns = [
     path('staffhome/', views.staffhome, name='staffdashboard'),
     path('staff/Referrals/', views.Requestreferral, name='referrals'),
 
+    # pharmacist panel
+    path('pharmacistsignup/', views.pharmacistsignup, name='pharmacistsignup'),
+    path('pharmacistdashboard/', views.pharmacistdashboard, name='pharmacistdashboard'),
+
     # doctor panel
     path('docsignup/', views.docsignup, name='docsignup'),
     path('doctorhome/', views.doctorhome, name='doctordashboard'),
