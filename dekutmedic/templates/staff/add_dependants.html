@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Add Dependants</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'staffdashboard' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Add</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-11">
+            <div class="card card-wrapper">
+                <div class="card-header">
+                    <h5 class="card-title"> Add Dependant</h5>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST" >
+                        {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{messages}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if message.tags == 'success' %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ messages }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">First name</label>
+                            <div class="col-md-11">
+                            <input type="text" class="form-control" placeholder="enter name" name="name" required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">last name</label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" placeholder="enter last name" name="last_name" required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Gender</label>
+                            <div class="col-md-11">
+                                <select name="gender" id="gender" class="form-control" required="true">
+                                <option value=""> Choose Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Year of Birth</label>
+                            <div class="col-md-11">
+                            <input type="date" class="form-control" placeholder="enter year of birth" name="date_of_birth" max="{{ today|date:'Y-m-d' }}" required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-11">
+                                <button type="submit" class="btn btn-block bg-primary mt-3">Add Dependant</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

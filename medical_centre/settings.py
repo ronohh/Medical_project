@@ -145,8 +145,9 @@ AUTH_USER_MODEL = 'dekutmedic.CustomUser'
 
 
 # Media files
-MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
 
 DARAJA_CONSUMER_KEY = "ekwMy2AkwGzqmJhYbSura7gf2OjJudWY7amiXIZQZ3cYYmEy"
 DARAJA_CONSUMER_SECRET = "5EGYeiilJ9bEaLQBg8HMWBPTMLt0YK3Gle45bzxj7npt0AFVrcE9NuLNz2AcveiS"

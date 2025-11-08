@@ -53,8 +53,8 @@
     {% endif %}
 
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card appointment-card" >
+        <div class="col-lg-11">
+            <div class="card card-wrapper" >
                 <div class="card-header">
                     <h5 class="card-title">Book Appointment</h5>
                 </div>
@@ -88,36 +88,37 @@
 
                     <form action="{% url 'patientappointment' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        
 
-                        <div class="form-group row">
-                            <label  class="col-form-label col-md-2">DOCTOR</label>
-                            <div class="col-md-10">
+                        <div class="form-group ">
+                            <label  class="col-form-label col-md-2">Doctor</label>
+                            <div class="col-md-11">
                                 <select class="form-control" name="doctor_id" id="doctor" required="required">
                                     <option value="">select doctor</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group ">
                             <label class="col-form-label col-md-2">Date</label>
-                            <div class="col-md-10">
+                            <div class="col-md-11">
                                 <input type="date" class="form-control" name="date_of_appointment" required="True">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group ">
                             <label class="col-form-label col-md-2">Time</label>
-                            <div class="col-md-10">
+                            <div class="col-md-11">
                                 <input type="time" class="form-control" required="True" name="time_of_appointment">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group ">
                             <label class="col-form-label col-md-2">Additional Message</label>
-                            <div class="col-md-10">
+                            <div class="col-md-11">
                                 <textarea class="form-control" name="additional_msg" id=""></textarea>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group ">
                             <div  class="col-sm-10">
-                                <button type="submit" class="book-now"> Book now</button>
+                                <button type="submit" class="btn btn bg-primary mt-3"> Book now</button>
                             </div>
                         </div>
                     </form>

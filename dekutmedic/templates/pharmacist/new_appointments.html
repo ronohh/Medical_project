@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Appointments</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                    <li class="breadcrumb-item active">new appointment list</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-11">
+            <div class="card">
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class=" table table-hover mb-0">
+                            <thead>
+                                {% if Approved_Appointments %}
+                                <tr>
+                                    <th>Doctor Name</th>
+                                    <th>Patient Name</th>
+                                    <th>Contact No.</th>
+                                    <th>status</th>
+                                    <th>prescription</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in Approved_Appointments %}
+                                <tr>
+                                    <td>{{ i.doctor_id.admin.first_name }} {{ i.doctor_id.admin.last_name }}</td>
+                                    <td>{{ i.pat_id.admin.first_name }} {{ i.pat_id.admin.last_name }}</td>
+                                    <td>{{ i.pat_id.admin.mobilenumber }}</td>
+                                    <td>{{ i.status }}</td>
+                                    {% if i.prescription %}
+                                    <td>{{ i.prescription}}</td>
+                                    {% else %}
+                                    <td>Not prescribed</td>
+                                    {% endif %}
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a href="{% url 'mark_as_dispensed' i.id %}" class="btn btn-success btn-sm"> dispense</a>
+                                            <a href="{% url 'mark_as_not_prescribed' i.id %}" class="btn btn-danger btn-sm"> NOT Prescribed</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <td colspan="7">No new appointments</td>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

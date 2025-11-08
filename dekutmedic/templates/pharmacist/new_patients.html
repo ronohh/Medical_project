@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">patients</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">Dashboard</li>
+                    <li class="breadcrumb-item active">new patients list</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tagss == 'errror' %}
+                    <div class="alert alert-warning alert-dismissible fade show">
+                        {{message}}
+                        <button type="submit" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                {% if new_patients %}
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Patient Name</th>
+                                    <th>contact No.</th>
+                                    <th>prescription</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in new_patients %}
+                                <tr>
+                                    <td>{{ i.doctor_id.admin.first_name }} {{ i.doctor_id.admin.last_name }}</td>
+                                    <td>{{ i.name }}</td>
+                                    <td>{{ i.mobilenumber}}</td>
+                                    <td>{{ i.prescription.pat_id}}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a href="{% url 'mark_as_dispensed' i.id %}" class="btn btn-success btn-sm"> yes</a>
+                                            <a href="{% url 'mark_as_not_prescribed' i.id %}" class="btn btn-danger btn-sm"> NOT Prescribed</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <td colspan="7">No new patients </td>
+                                {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

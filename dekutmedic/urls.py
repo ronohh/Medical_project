@@ -9,6 +9,7 @@ urlpatterns = [
     path('adminhome/', views.adminhome, name='admindashboard'),
     path('base/', views.base, name='base'),
     path('Admin/doctorlist/', views.doctorList, name='viewdoctorlist'),
+    path('Admin/pharmacistlist/', views.pharmacistList, name='viewpharmacistlist'),
     path('ViewDoctorDetails/<str:id>', views.ViewDoctorDetails, name='viewdoctordetails'),
     path('Admin/ViewDoctorPatient/<str:id>', views.ViewDoctorPatient, name='viewdoctorpatient'),
     # path('Admin/ViewDoctorPatientDetails/<str:id>', views.ViewDoctorPatientDetails, name='viewdoctorpatientdetails'),
@@ -47,11 +48,19 @@ urlpatterns = [
     # staff panel
     path('staffregistration/', views.staffregistration, name='staffregistration'),
     path('staffhome/', views.staffhome, name='staffdashboard'),
+    path('staff/dependantslist/', views.dependantslist, name='dependantslist'),
+    path('adddependants/', views.AddDependants, name='adddependants'),
     path('staff/Referrals/', views.Requestreferral, name='referrals'),
+    path('staff/referral_history/', views.referral_history, name='referral_history'),
 
     # pharmacist panel
     path('pharmacistsignup/', views.pharmacistsignup, name='pharmacistsignup'),
     path('pharmacistdashboard/', views.pharmacistdashboard, name='pharmacistdashboard'),
+    path('pharmacist/newappointments/', views.newappointments, name='newpharmacistappointments'),
+    path('pharmacist/newpatients/', views.newpatients, name='newpharmacistpatients'),
+    path('pharmacy/records/', views.pharmacy_records, name='pharmacy_records'),
+    path('dispense/<str:id>/', views.mark_as_dispensed, name='mark_as_dispensed'),
+    path('notprescribed/<str:id>/', views.mark_as_not_prescribed, name='mark_as_not_prescribed'),
 
     # doctor panel
     path('docsignup/', views.docsignup, name='docsignup'),

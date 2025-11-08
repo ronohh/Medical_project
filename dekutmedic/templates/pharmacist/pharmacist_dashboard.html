@@ -1,1 +1,50 @@
-<p>youre a faggot</p>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="page-title"> Welcome Pharmacist {{ user.first_name}} {{ user.last_name}}!</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-xl-6 col-sm-6 col-12 d-flex">
+            <div class="card bg-one w-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="fs-1 text-primary">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <div class="fw-bold mb-0">
+                            <h3>{{newaptcount}}</h3>
+                            <h6>New Appointments</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-sm-6 col-12 d-flex">
+            <div class="card bg-two w-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="fs-1 text-success">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <div class="fw-bold mb-0">
+                            <h3>{{newpatients}}</h3>
+                            <a href="{% url 'newappointments' %}"><h6>New patients</h6></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

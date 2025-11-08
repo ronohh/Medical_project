@@ -6,7 +6,7 @@ import random
 from datetime import datetime
 from django.utils import timezone
 from dekutmedic.models import CustomUser
-from .models import DoctorRegistration,PharmacistRegistration, PatientReg, Appointment,AddPatient, MedicalHistory, ReferralAppointment, Payment, Insurance
+from .models import DoctorRegistration,StaffRegistration,PharmacistRegistration, PatientReg, Appointment,AddPatient, MedicalHistory, ReferralAppointment, Payment, Insurance,Dependant
 from django.core.paginator import Paginator,EmptyPage
 from .forms import PatientReferralForm
 import requests
@@ -16,6 +16,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from requests.auth import HTTPBasicAuth
 from decimal import Decimal
+from django.db.models import Q
 
 # Create your views here.
 
@@ -65,7 +66,7 @@ def dologin(request):
                 return redirect('pharmacistdashboard')
             
             else:
-                return redirect('patienthome')
+                return redirect('login')
             
 
         else:
@@ -80,18 +81,30 @@ def adminhome(request):
     doctor_count=DoctorRegistration.objects.all().count
     students_count = CustomUser.objects.filter(user_type=3).count
     staff_count = CustomUser.objects.filter(user_type=4).count
+    pharmacist_count = CustomUser.objects.filter(user_type=5).count
     context = {
         'doctor_count':doctor_count,
         'students_count': students_count,
         'staff_count': staff_count,
+        'pharmacist_count': pharmacist_count
     }
     return render(request, 'admin/adminhome.html', context)
 
 def doctorList(request):
     doctorlist = DoctorRegistration.objects.all()
-    context = {'doctorlist':doctorlist}
+    context = {
+        'doctorlist':doctorlist
+        }
     
     return render(request, 'admin/doctor-list.html', context)
+
+def pharmacistList(request):
+    pharmacistlist = PharmacistRegistration.objects.all()
+    context = {
+        'pharmacistlist':pharmacistlist
+        }
+    
+    return render(request, 'admin/pharmacy_list.html', context)
 
 def ViewDoctorDetails(request,id):
     doctorlist1 = DoctorRegistration.objects.filter(id=id)
@@ -142,16 +155,22 @@ def StudentsList(request):
 
 def DeleteRegUsers(request,id):
     try:
-        patreg = PatientReg.objects.get(id=id)
-        custom_user =patreg.admin
-        patreg.delete()
+        custom_user = get_object_or_404(CustomUser, id=id)
+
+        if custom_user.user_type == 2:
+            DoctorRegistration.objects.filter(admin=custom_user).delete()
+        elif custom_user.user_type == 3:
+            PatientReg.objects.filter(admin=custom_user).delete()
+        elif custom_user.user_type == 4:
+            StaffRegistration.objects.filter(admin=custom_user).delete()
+        elif custom_user.user_type == 5:
+            PharmacistRegistration.objects.filter(admin=custom_user).delete()
         custom_user.delete()
-        messages.success(request, 'Record deleted successfully!')
-    except PatientReg.DoesNotExist:
-        messages.error(request, f'patient does not exist.')
+        messages.success(request, 'User deleted successfully!')
+        
     except Exception as e:
         messages.error(request, f'error deleting record: {e}')
-    return redirect('regusers')
+    return redirect('admindashboard')
 
 def Registered_User_Appointments(request,id):
     pat_admin = PatientReg.objects.get(id=id)
@@ -308,6 +327,39 @@ def staffhome(request):
 
     return render(request, 'staff/staffhome.html')
 
+def dependantslist(request):
+    staff_user = request.user
+    staff = StaffRegistration.objects.get(admin= staff_user)
+    dependants = Dependant.objects.filter(staff = staff)
+    context = {
+        'dependants': dependants
+    }
+    return render(request, 'staff/dependants_list.html', context )
+
+def AddDependants(request):
+    if request.method == "POST":
+        staff_user = request.user
+        staff = StaffRegistration.objects.get(admin= staff_user)
+        first_name = request.POST.get('name')
+        last_name = request.POST.get('last_name')
+        gender = request.POST.get('gender')
+        date_of_birth = request.POST.get('date_of_birth')
+
+        if first_name == "" or last_name =="" or gender =="" or date_of_birth =="":
+            messages.error(request, "All fields are required")
+            return redirect('adddependants')
+        Dependant.objects.create(
+            staff = staff,
+            first_name = first_name,
+            last_name = last_name,
+            gender = gender,
+            date_of_birth = date_of_birth
+        )
+        messages.success(request, "Dependant added successfully")
+        return redirect('dependantslist')
+
+    return render(request, 'staff/add_dependants.html')
+
 def Requestreferral(request):
     try:
         patient = PatientReg.objects.get(admin= request.user)
@@ -331,6 +383,14 @@ def Requestreferral(request):
         "patient": patient
     }
     return render(request, 'staff/referral.html',context)
+def referral_history(request):
+    pat_reg = request.user
+    pat_admin = PatientReg.objects.get(admin= pat_reg)
+    referrals = ReferralAppointment.objects.filter(pat_id=pat_admin)
+    context = {
+        'referrals': referrals
+    }
+    return render(request, 'staff/referral_history.html', context)
 
 # patient
 
@@ -522,7 +582,43 @@ def pharmacistsignup(request):
     return render(request, 'pharmacist/pharmacist-register.html')
 
 def pharmacistdashboard(request):
-    return render(request, 'pharmacist/pharmacist_dashboard.html')
+    pharmacist_admin = request.user
+    newaptcount = Appointment.objects.filter(status='Approved').count
+    newpatients = AddPatient.objects.all().count
+    context= {
+        'newaptcount':newaptcount,
+        'newpatients':newpatients,
+    }   
+    return render(request, 'pharmacist/pharmacist_dashboard.html', context)
+
+def newappointments(request):
+    pharmacist_admin = request.user
+    Approved_Appointments = Appointment.objects.filter(status='Approved')
+    context = {'Approved_Appointments': Approved_Appointments}
+    return render(request, 'pharmacist/new_appointments.html', context)
+
+def newpatients(request):
+    pharmacist_admin = request.user
+    new_patients = AddPatient.objects.all()
+    context = {'new_patients': new_patients}
+    return render(request, 'pharmacist/new_patients.html', context)
+
+def pharmacy_records(request):
+    pharmacist_admin = request.user
+    dispensed_appointments = Appointment.objects.filter(Q(pharmacy_status='dispensed') | Q(pharmacy_status='not prescribed'))
+    context = {'dispensed_appointments': dispensed_appointments}
+    return render(request, 'pharmacist/pharmacy_records.html', context)
+
+def mark_as_dispensed(request, id):
+    appointment = get_object_or_404(Appointment, id=id)
+    appointment.pharmacy_status = 'dispensed'
+    appointment.save()
+    return redirect('pharmacy_records')
+def mark_as_not_prescribed(request, id):
+    appointment = get_object_or_404(Appointment, id=id) 
+    appointment.pharmacy_status = 'not prescribed'
+    appointment.save()
+    return redirect('pharmacy_records')
 # doctor
 def docsignup(request):
     if request.method == "POST":
@@ -762,11 +858,26 @@ def Patient_Appointment_Details_Remark(request):
     
     return render(request, 'doctor/view_appointment.html')
 
+
+def New_Appointments(request):
+    doctor_admin = request.user
+    doctor_reg = DoctorRegistration.objects.get(admin=doctor_admin)
+    patientdetails1 = Appointment.objects.filter(status="0", doctor_id= doctor_reg)
+
+    context = { 
+        'patientdetails1' : patientdetails1,
+        'view_type': 'new'
+                }
+
+    return render(request, 'doctor/appointments.html', context )
+
 def Approved_Appointments(request):
     doctor_admin = request.user
     doctor_reg = DoctorRegistration.objects.get(admin=doctor_admin)
     patientdetails1 = Appointment.objects.filter(status= 'Approved',doctor_id=doctor_reg)
-    context = {'patientdetails1':patientdetails1}
+    context = {
+        'patientdetails1':patientdetails1,
+        'view_type': 'approved'}
 
     return render(request, 'doctor/appointments.html', context)
 
@@ -774,18 +885,12 @@ def Cancelled_Appointments(request):
     doctor_admin = request.user
     doctor_reg = DoctorRegistration.objects.get(admin=doctor_admin)
     patientdetails1 = Appointment.objects.filter(status= 'Canceled',doctor_id=doctor_reg)
-    context = {'patientdetails1': patientdetails1 }
+    context = {
+        'patientdetails1': patientdetails1,
+         'view_type': 'canceled'
+         }
 
     return render(request, 'doctor/appointments.html', context)
-
-def New_Appointments(request):
-    doctor_admin = request.user
-    doctor_reg = DoctorRegistration.objects.get(admin=doctor_admin)
-    patientdetails1 = Appointment.objects.filter(status="0", doctor_id= doctor_reg)
-
-    context = { 'patientdetails1' : patientdetails1 }
-
-    return render(request, 'doctor/appointments.html', context )
 
 def Patient_List_Approved_Appointment(request):
     doctor_admin =request.user

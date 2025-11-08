@@ -49,11 +49,11 @@
                             <thead>
                                 {% if patientdetails %}
                                 <tr>
-                                    <th>Appointment Number</th>
-                                    <th>Patient Name</th>
-                                    <th>Patient Contact Number</th>
-                                    <th>Date of Appointment</th>
-                                    <th>Time of Appointment</th>
+                                    <th>Appointment No.</th>
+                                    <th>Name</th>
+                                    <th>Contact Number</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
                                     <th>Creation Date</th>
                                     <th>Status</th>
                                     <th class="text-right">Action</th>
@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>{{ i.appointmentnumber}}</td>
                                     <td>{{i.pat_id.admin.first_name}} {{i.pat_id.admin.last_name}}</td>
-                                    <td>{{i.pat_id.mobilenumber}}</td>
+                                    <td>{{i.pat_id.admin.mobilenumber}}</td>
                                     <td>{{i.date_of_appointment}}</td>
                                     <td>{{i.time_of_appointment}}</td>
                                     <td>{{i.created_at}}</td>

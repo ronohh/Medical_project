@@ -112,13 +112,13 @@
 .main-wrapper {
     width: 100%;
     height: 100vh;
-    min-height: 100vh;
+    min-height: 94vh;
 }
 .main-wrapper .login-body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 94vh;
     background: linear-gradient(135deg, #007bff 0%, #00c6ff 100%);
 }
 .login-wrapper {
@@ -152,7 +152,7 @@
 }
 .login-right {
     flex:1;
-    padding: 40px;
+    padding: 30px;
     background-color: #317a42;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -165,15 +165,18 @@
     font-size: 32px;
     font-weight: 700;
     color: black;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     text-align: center;
 }
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 3px;
 }
 .form-group label{
     font-weight: 600;
     color:black;
+}
+.form-group-login{
+    margin-bottom: 20px;
 }
 .form-control {
     height: 35px;
@@ -217,36 +220,7 @@
     text-decoration: underline;
 }
 
-
-/* DASHBOARD */
-.page-wrapper {
-    margin-left: 300px;
-    padding-top: 80px;
-    position: relative;
-}
-.page-wrapper > .content {
-    padding: 30px 30px 0;
-}
-.page-header{
-    margin-bottom: 10px;
-}
-.page-header .breadcrumb {
-    background-color: transparent;
-    color:#6c757d;
-    font-size: 16px;
-    font-weight: 500;
-}
-.page-header .breadcrumb a{
-    color: #333;
-}
-.page-title {
-    font-size: 28px;
-    font-weight: 600;
-    color:#333;
-    margin-bottom: 5px;
-}
-
-/* admin header */
+/* dashboard header */
 .header {
     display:flex;
     /* brings them horizontally but attached */
@@ -269,12 +243,6 @@
     width: 150px;
     height: 80px;
     border-radius:  8px;
-}
-/* remove after checking index */
-.header-left strong {
-    font-size: 15px;
-    font-weight: 600;
-    margin-left: 10px;;
 }
 .mobile_btn {
     display: none;
@@ -303,11 +271,39 @@
 .dropdown-menu {
     background: white;
     border-radius: 8px;
-    min-width: 200px;
+    min-width: 150px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
+    font-size: 14px;
+}
+.user-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.avatar {
+	position: relative;
+	display: inline-block;
+	width: 3rem;
+	height: 3rem;
+}
+.avatar-sm {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+.avatar > img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
 }
 .user-header .avatar img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
     border-radius: 50%;
 }
 .user-text h6 {
@@ -331,7 +327,6 @@
     background: #f4f4f4;
     color: #0a3d62;
 }
-
 /* sidebar  */
 .sidebar {
     width:250px;
@@ -352,15 +347,14 @@
     padding: 0;
     margin: 10px ;
 }
-.sidebar-menu ul ul {
-    display: none;
-    list-style: none;
-    padding-left: 20px;
+.menu-title {
+    padding: 15px 20px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #bbb;
+    font-weight: bold;
 }
-.sidebar-menu .submenu.active ul {
-    display:block;
-}
-.sidebar-menu li a {
+.sidebar-menu ul li a {
     display: flex;
     align-items: center;
     color:#fff;
@@ -368,6 +362,12 @@
     font-size: 15px;
     transition: 0.3s;
     padding: 10px 15px;
+}
+.dropdown-menu{
+    position: static;
+    float:none;
+    width: 100%;
+    background: transparent;
 }
 .sidebar-menu li a i {
     margin-right: 12px;
@@ -379,30 +379,62 @@
     background: #00c6ff;
     border-radius: 5px;
 }
-.menu-title {
-    padding: 15px 20px;
-    font-size: 13px;
-    text-transform: uppercase;
-    color: #bbb;
-    font-weight: bold;
+
+
+/* DASHBOARD  pages headers */
+.page-wrapper {
+    margin-left: 300px;
+    padding-top: 80px;
+    position: relative;
 }
-/* dashboard */
+.page-wrapper > .content {
+    padding: 30px 30px 0;
+}
+.page-header{
+    margin-bottom: 10px;
+}
+.page-header .breadcrumb {
+    background-color: transparent;
+    color:#6c757d;
+    font-size: 16px;
+    font-weight: 500;
+}
+.page-header .breadcrumb a{
+    color: #333;
+}
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color:#333;
+    margin-bottom: 5px;
+}
+
+/* admin dashboard  */
 .bg-one {
-    background-color: rgba(253, 131, 56, 0.5);
+    background-color: rgba(253, 187, 56, 0.5);
+    border-color: #fdbb38;
     border-radius: 30px 0px;
+    height: 125px;
 }
 .bg-two {
-    background-color: rgba(24, 175, 251, 0.2);
-    border-radius: 30px 0px;
+    background-color: rgba(5, 146, 216, 0.2);
+    border-color: #19affb;
+    border-radius: 0px 30px;
+     height: 130px;
 }
 .bg-three {
-    background-color: rgba(181, 246, 171, 0.5);
+    background-color: rgba(148, 250, 133, 0.5);
+    border-color: #31fb12;
     border-radius: 30px 0px;
+    height: 125px;
 }
 .bg-four {
-    background-color: rgba(104, 83, 25, 0.5);
-    border-radius: 30px 0px;
+    background-color: rgba(110, 107, 250, 0.2);
+    border-color: #6e6bfa;
+    border-radius: 0px 30px;
+    height: 125px;
 }
+
 .db-icon {
     font-size: 25px;
     width: 60px;
@@ -415,6 +447,15 @@
 .bg-one .db-icon {
     background-color: #fdbb38;
 }
+.bg-two .db-icon {
+    background-color: #19affb;
+}
+.bg-three .db-icon {
+    background-color: #4ed839;
+}
+.bg-four .db-icon {
+    background-color: #6e6bfa;
+}
 
 .db-info h3 {
     font-size: 28px;
@@ -423,23 +464,24 @@
 }
 .db-info h6 {
     margin: 0px;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 15px;
     color:#333333;
 }
 
-.appointment-card{
+/* appointment and dependants */
+.card-wrapper{
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     border-radius: 12px;
 }
-.appointment-card .card-header {
+.card-wrapper .card-header {
     background: #2f7c41;
     color: #fff;
     border-radius: 12px 12px 0 0;
     padding: 15x 20px;
 }
-.appointment-card .card-title {
+.card-wrapper .card-title {
     margin: 10px;;
     font-size: 18px;
     font-weight: 600;

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -6,19 +7,18 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title">Welcome !!</h3>
+                <h3 class="page-title">Welcome {{ user.username }} !!</h3>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ul>
             </div>
         </div>
     </div>
-
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-xl-6 col-sm-6 col-12 d-flex">
             <div class="card bg-one w-100">
                 <div class="card-body">
-                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div class="db-icon">
                             <i class="fas fa-user-graduate"></i>
                         </div>
@@ -30,13 +30,11 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
+    
         <div class="col-xl-6 col-sm-6 col-12 d-flex">
             <div class="card bg-two w-100">
                 <div class="card-body">
-                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                    <div class=" d-flex justify-content-between align-items-center">
                         <div class="db-icon">
                             <i class="fas fa-user-graduate"></i>
                         </div>
@@ -52,24 +50,39 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-xl-6 col-sm-6 col-12 d-flex">
-            <div class="card bg-one w-100">
+            <div class="card bg-three w-100">
                 <div class="card-body">
-                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div class="db-icon">
                             <i class="fas fa-user-graduate"></i>
                         </div>
                         <div class="db-info">
                             <h3>{{ students_count }}</h3>
-                            <a href="{% url 'registeredusers' %}">students</a>
+                            <a href="{% url 'registeredusers' %}"><h6>students</h6></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-sm-6 col-12 d-flex">
+            <div class="card bg-four w-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{ pharmacist_count }}</h3>
+                            <a href="{% url 'viewpharmacistlist' %}"><h6>pharmacy</h6></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 {% endblock %}

@@ -49,14 +49,16 @@
                             <thead>
                                 {% if patientdetails1 %}
                                 <tr>
-                                    <th>Appointment Number</th>
+                                    <th>Appointment No.</th>
                                     <th>Patient Name</th>
                                     <th>Mobile No:</th>
-                                    <th>Date of Appointment</th>
-                                    <th>Time of Appointment</th>
+                                    <th>Date </th>
+                                    <th>Time </th>
                                     <th>Status</th>
-                                    <th>consultancy fee</th>
-                                    <th>payment status</th>
+                                    {% if view_type == "approved" %}
+                                    <th>Fee</th>
+                                    <th class-="">payment status</th>
+                                    {% endif %}
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
@@ -75,8 +77,10 @@
                                     {% else %}
                                     <td>{{i.status}}</td>
                                     {% endif %}
-                                    <td>
-                                        {{ i.consultancy_fee }}</td>
+
+                                    {% if view_type == "approved" %}
+                                    <td>{{ i.consultancy_fee }}</td>
+                                    
                                     <td>
                                         {% if i.pat_id.admin.user_type == 3 %}
                                             <span>Is a student </span>
@@ -98,6 +102,7 @@
                                                 {% endif %}
                                         {% endif %}
                                     </td>
+                                    {% endif %}
 
                                     <td class="text-right">
                                         <div class="actions">
